@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Anticipatory Cyclone Platform - Automated Test Suite</title>
+  <style>
+    body { font-family: monospace; background: #070b14; color: #f8fafc; padding: 24px; line-height: 1.6; }
+    h1 { color: #00f2fe; }
+    .test-pass { color: #10b981; font-weight: bold; }
+    .test-fail { color: #ef4444; font-weight: bold; }
+    .test-suite { margin-top: 16px; border: 1px solid rgba(255,255,255,0.1); padding: 16px; border-radius: 8px; }
+  </style>
+</head>
+<body>
+  <h1>System Verification Suite</h1>
+  <div id="results">Running tests...</div>
+
+  <script type="module">
+    import { GEEPipelineManager } from '../js/gee-pipeline.js';
+    import { PINNHydrodynamicEngine } from '../js/pinn-engine.js';
+    import { OSMExtractor } from '../js/osm-extractor.js';
+    import { GeminiOrchestrator } from '../js/gemini-orchestrator.js';
+    import { CAPDispatcher } from '../js/cap-dispatcher.js';
+    import { SmartContractManager } from '../js/smart-contract.js';
+
+    const results = document.getElementById('results');
+    results.innerHTML = '';
+
+    function assert(testName, condition, details = '') {
+      const div = document.createElement('div');
+      if (condition) {
+        div.className = 'test-pass';
+        div.innerText = `✓ PASS: ${testName} ${details ? '(' + details + ')' : ''}`;
+      } else {
+        div.className = 'test-fail';
+        div.innerText = `✗ FAIL: ${testName} ${details ? '(' + details + ')' : ''}`;
+      }
+      results.appendChild(div);
+    }
+
+    try {
+      // 1. Test GEE Otsu thresholding
+      const gee = new GEEPipelineManager();
+      const threshold = gee.calculateOtsuThreshold();
+      assert('GEE Otsu Threshold Calculation', threshold <= -4.0 && threshold >= -10.0, `Threshold: ${threshold} dB`);
+
+      // 2. Test PINN Hydrodynamics & Mass Conservation
+      const pinn = new PINNHydrodynamicEngine();
+      const surge = pinn.calculateSurge(940, 195);
+      assert('PINN Storm Surge Formulation', surge.totalSurgeMeters >= 2.0, `Surge: ${surge.totalSurgeMeters}m, Latency: ${surge.inferenceTimeMs}ms`);
+
+      const gnn = pinn.simulateWatershedGNN(65);
+      assert('DUALFloodGNN Mass Conservation Residual', gnn.conservesMass, `Residual: ${gnn.localMassResidual}`);
+
+      // 3. Test OSM Vulnerability sjoin
+      const osm = new OSMExtractor();
+      const vulnerable = osm.evaluateVulnerability(3.2);
+      const flooded = vulnerable.filter(a => a.isFlooded);
+      assert('OSM Spatial Join Evaluation', flooded.length > 0, `Threatened facilities: ${flooded.length}`);
+
+      // 4. Test Gemini 3.7 Flash Schema Validation
+      const gemini = new GeminiOrchestrator();
+      const scenario = { name: "Cyclone Test", id: "test" };
+      const assessment = gemini.synthesizeAnticipatoryAssessment(scenario, 72, surge, vulnerable);
+      const schemaValid = assessment.structuredOutput.hasOwnProperty('cap_parameters') &&
+                          assessment.structuredOutput.hasOwnProperty('parametric_liquidity_trigger');
+      assert('Gemini 3.7 Flash Strict JSON Output', schemaValid, `Severity: ${assessment.structuredOutput.event_severity}`);
+
+      // 5. Test OASIS CAP v1.2 XML generation
+      const cap = new CAPDispatcher();
+      const xml = cap.generateXML(assessment.structuredOutput.cap_parameters);
+      assert('OASIS CAP v1.2 XML Generator', xml.includes('<alert xmlns="urn:oasis:names:tc:emergency:cap:1.2">'), 'Valid OASIS namespace');
+
+      // 6. Test Smart Contract Settlement
+      const sc = new SmartContractManager();
+      const settlement = sc.evaluateAndExecuteSettlement(3.2, 72);
+      assert('Smart Contract Parametric Liquidity Release', settlement.triggered && sc.isSettled, `Pool Disbursed: $${settlement.totalDisbursedUsd}`);
+
+    } catch (err) {
+      assert('Test Execution Exception', false, err.message);
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,501 @@
+/* =====================================================================
+   ANTICIPATORY CYCLONE RISK PLATFORM - COMPONENT STYLES
+   Specific widgets for the 5 Architecture Tiers & Interactive Modals
+   ===================================================================== */
+
+/* --- TIER 1: GEE & SAR WIDGETS --- */
+.sar-histogram-container {
+  width: 100%;
+  height: 120px;
+  background: #090e1c;
+  border-radius: 8px;
+  border: 1px solid var(--border-subtle);
+  position: relative;
+  overflow: hidden;
+}
+
+.otsu-indicator-line {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  background: var(--amber-warning);
+  box-shadow: 0 0 8px var(--amber-warning);
+  z-index: 5;
+  transition: left 0.3s ease;
+}
+
+.otsu-pill {
+  position: absolute;
+  top: 8px;
+  transform: translateX(-50%);
+  background: var(--amber-warning);
+  color: #070b14;
+  font-family: var(--font-mono);
+  font-size: 0.6rem;
+  font-weight: 700;
+  padding: 2px 6px;
+  border-radius: 4px;
+  white-space: nowrap;
+}
+
+.filter-switch-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+}
+
+.filter-switch-label {
+  font-size: 0.75rem;
+  color: var(--text-secondary);
+}
+
+.filter-switch-tag {
+  font-size: 0.65rem;
+  font-family: var(--font-mono);
+  color: var(--cyan-primary);
+  background: rgba(0, 242, 254, 0.1);
+  padding: 2px 6px;
+  border-radius: 4px;
+}
+
+/* --- TIER 2: PINN & DUALFLOODGNN --- */
+.formula-banner {
+  background: rgba(0, 242, 254, 0.05);
+  border-left: 3px solid var(--cyan-primary);
+  padding: 8px 12px;
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  color: var(--cyan-primary);
+  margin-bottom: 10px;
+  border-radius: 0 6px 6px 0;
+}
+
+.progress-bar-container {
+  width: 100%;
+  height: 6px;
+  background: #1e293b;
+  border-radius: 3px;
+  overflow: hidden;
+  margin: 6px 0;
+}
+
+.progress-bar-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--teal-accent), var(--cyan-primary));
+  transition: width 0.3s ease;
+}
+
+.progress-bar-fill.warning {
+  background: linear-gradient(90deg, var(--amber-warning), var(--red-critical));
+}
+
+/* --- TIER 3: OVERPASS QL & VULNERABILITY LIST --- */
+.ql-console {
+  background: #080c18;
+  border: 1px solid var(--border-subtle);
+  border-radius: 8px;
+  padding: 10px;
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  color: #38bdf8;
+  max-height: 110px;
+  overflow-y: auto;
+  white-space: pre-wrap;
+}
+
+.asset-vulnerability-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  max-height: 220px;
+  overflow-y: auto;
+  margin-top: 8px;
+}
+
+.asset-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 10px;
+  background: var(--bg-elevated);
+  border-radius: 6px;
+  border: 1px solid rgba(255, 255, 255, 0.03);
+  font-size: 0.75rem;
+  cursor: pointer;
+  transition: var(--transition-fast);
+}
+
+.asset-item:hover {
+  background: var(--bg-card-hover);
+  border-color: var(--border-highlight);
+}
+
+.asset-info {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.asset-name {
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.asset-meta {
+  font-size: 0.65rem;
+  color: var(--text-muted);
+  font-family: var(--font-mono);
+}
+
+.badge-risk {
+  padding: 3px 8px;
+  border-radius: 4px;
+  font-size: 0.65rem;
+  font-weight: 700;
+  font-family: var(--font-mono);
+  text-transform: uppercase;
+}
+
+.badge-risk.critical {
+  background: rgba(239, 68, 68, 0.2);
+  color: #fca5a5;
+  border: 1px solid rgba(239, 68, 68, 0.4);
+}
+
+.badge-risk.high {
+  background: rgba(245, 158, 11, 0.2);
+  color: #fde68a;
+  border: 1px solid rgba(245, 158, 11, 0.4);
+}
+
+/* --- TIER 4: GEMINI 3.7 FLASH COGNITIVE AGENT --- */
+.ai-agent-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 12px;
+}
+
+.ai-avatar {
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  background: linear-gradient(135deg, #a855f7, #6366f1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-weight: 800;
+  font-size: 0.8rem;
+  box-shadow: 0 0 12px rgba(168, 85, 247, 0.4);
+}
+
+.ai-reasoning-stream {
+  background: #080c18;
+  border: 1px solid rgba(168, 85, 247, 0.2);
+  border-radius: 8px;
+  padding: 12px;
+  font-size: 0.78rem;
+  line-height: 1.6;
+  color: #e2e8f0;
+  max-height: 180px;
+  overflow-y: auto;
+  position: relative;
+}
+
+.ai-thinking-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  color: #c084fc;
+  margin-bottom: 8px;
+}
+
+.json-code-box {
+  background: #050811;
+  border: 1px solid var(--border-subtle);
+  border-radius: 8px;
+  padding: 10px;
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  color: #38bdf8;
+  max-height: 180px;
+  overflow-y: auto;
+}
+
+/* --- TIER 5: CAP V1.2 & SMART CONTRACT & LORAWAN --- */
+.cap-tabs-nav {
+  display: flex;
+  gap: 6px;
+  margin-bottom: 10px;
+}
+
+.cap-tab-pill {
+  padding: 4px 10px;
+  border-radius: 6px;
+  font-size: 0.7rem;
+  font-family: var(--font-mono);
+  background: var(--bg-elevated);
+  border: 1px solid var(--border-subtle);
+  color: var(--text-secondary);
+  cursor: pointer;
+}
+
+.cap-tab-pill.active {
+  background: var(--cyan-dark);
+  color: white;
+  border-color: var(--cyan-primary);
+}
+
+.btn-cbs-broadcast {
+  width: 100%;
+  padding: 10px;
+  border-radius: 8px;
+  border: none;
+  background: linear-gradient(135deg, #ef4444, #dc2626);
+  color: white;
+  font-weight: 700;
+  font-size: 0.8rem;
+  font-family: var(--font-display);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  box-shadow: 0 4px 14px rgba(239, 68, 68, 0.4);
+  transition: var(--transition-fast);
+  margin-top: 10px;
+}
+
+.btn-cbs-broadcast:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(239, 68, 68, 0.6);
+}
+
+/* LoRaWAN Mesh Topology View */
+.lora-mesh-canvas {
+  width: 100%;
+  height: 130px;
+  background: #090e1c;
+  border-radius: 8px;
+  border: 1px solid var(--border-subtle);
+}
+
+.lora-node-status-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+  margin-top: 10px;
+}
+
+.lora-node-card {
+  background: var(--bg-elevated);
+  border: 1px solid rgba(255, 255, 255, 0.04);
+  border-radius: 6px;
+  padding: 8px;
+  font-size: 0.68rem;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.lora-node-name {
+  font-weight: 600;
+  color: var(--text-primary);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.lora-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--teal-accent);
+}
+
+/* Parametric Insurance Web3 Box */
+.web3-contract-card {
+  background: linear-gradient(135deg, rgba(16, 24, 43, 0.95), rgba(30, 27, 75, 0.6));
+  border: 1px solid rgba(139, 92, 246, 0.3);
+  border-radius: 12px;
+  padding: 14px;
+}
+
+.oracle-feed-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 12px;
+  background: rgba(0, 0, 0, 0.35);
+  border-radius: 8px;
+  margin: 10px 0;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.oracle-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: #38bdf8;
+  font-size: 0.72rem;
+  font-family: var(--font-mono);
+}
+
+.payout-stream-list {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  max-height: 140px;
+  overflow-y: auto;
+  margin-top: 8px;
+}
+
+.payout-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: rgba(0, 0, 0, 0.25);
+  padding: 6px 10px;
+  border-radius: 6px;
+  font-size: 0.7rem;
+  font-family: var(--font-mono);
+  border-left: 2px solid var(--teal-accent);
+}
+
+.payout-beneficiary {
+  color: #94a3b8;
+}
+
+.payout-amount {
+  color: var(--teal-accent);
+  font-weight: 700;
+}
+
+/* =====================================================================
+   CELL BROADCAST EMERGENCY MODAL (CBS CHANNEL-4370)
+   ===================================================================== */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.85);
+  backdrop-filter: blur(8px);
+  z-index: 9999;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  animation: fadeIn 0.2s ease-out;
+}
+
+.modal-overlay.active {
+  display: flex;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.phone-mockup-frame {
+  width: 380px;
+  background: #111827;
+  border-radius: 36px;
+  border: 4px solid #374151;
+  box-shadow: 0 25px 60px -15px rgba(0, 0, 0, 0.8), 0 0 40px rgba(239, 68, 68, 0.5);
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  overflow: hidden;
+  animation: modalPop 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+@keyframes modalPop {
+  from { transform: scale(0.85); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
+}
+
+.phone-notch {
+  width: 120px;
+  height: 20px;
+  background: #030712;
+  border-radius: 0 0 12px 12px;
+  margin: 0 auto 12px auto;
+}
+
+.cbs-alert-card {
+  background: #dc2626;
+  color: white;
+  border-radius: 20px;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  box-shadow: 0 10px 25px rgba(220, 38, 38, 0.4);
+}
+
+.cbs-alert-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 1.15rem;
+  letter-spacing: 0.5px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.25);
+  padding-bottom: 8px;
+}
+
+.cbs-alert-body {
+  font-size: 0.85rem;
+  line-height: 1.5;
+}
+
+.cbs-alert-instruction {
+  background: rgba(0, 0, 0, 0.25);
+  border-radius: 10px;
+  padding: 10px;
+  font-size: 0.8rem;
+  font-weight: 600;
+}
+
+.cbs-alert-dismiss-btn {
+  background: white;
+  color: #b91c1c;
+  border: none;
+  padding: 12px;
+  border-radius: 12px;
+  font-weight: 700;
+  font-size: 0.9rem;
+  cursor: pointer;
+  margin-top: 8px;
+  transition: transform 0.15s ease;
+}
+
+.cbs-alert-dismiss-btn:hover {
+  transform: scale(1.02);
+}
+
+/* Tooltip on Map */
+.map-tooltip {
+  position: absolute;
+  z-index: 50;
+  background: rgba(10, 15, 29, 0.95);
+  backdrop-filter: var(--glass-blur);
+  border: 1px solid var(--border-highlight);
+  border-radius: 8px;
+  padding: 10px 14px;
+  box-shadow: var(--shadow-card);
+  font-size: 0.75rem;
+  pointer-events: none;
+  display: none;
+  max-width: 240px;
+}

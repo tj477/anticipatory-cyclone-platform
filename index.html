@@ -1,0 +1,547 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Anticipatory Cyclone Risk & Vulnerability Modeling Platform</title>
+  <meta name="description" content="AI-driven anticipatory action platform fusing Google Earth Engine SAR telemetry, Physics-Informed Neural Networks (PINNs), OpenStreetMap exposure mapping, Gemini 3.7 Flash orchestration, OASIS CAP v1.2 alerts, and Chainlink parametric smart contracts.">
+  
+  <!-- Stylesheets -->
+  <link rel="stylesheet" href="css/main.css">
+  <link rel="stylesheet" href="css/components.css">
+</head>
+<body>
+
+  <!-- =====================================================================
+       HEADER & MISSION CONTROL BAR
+       ===================================================================== -->
+  <header class="header-bar">
+    <div class="brand-section">
+      <div class="logo-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/>
+          <circle cx="12" cy="12" r="4"/>
+        </svg>
+      </div>
+      <div class="brand-title">
+        <h1>ANTICIPATORY CYCLONE RISK PLATFORM</h1>
+        <div class="brand-subtitle">
+          <span>AI-POWERED PRE-LANDFALL VULNERABILITY MODELING</span>
+          <span class="status-badge live-pulse">
+            <span class="pulse-dot"></span>
+            ACTIVE MONITORING
+          </span>
+        </div>
+      </div>
+    </div>
+
+    <div class="header-actions">
+      <!-- Scenario Selector -->
+      <div class="scenario-select-wrapper">
+        <label for="scenarioSelect">SCENARIO:</label>
+        <select id="scenarioSelect" class="scenario-select">
+          <option value="amphan" selected>Cyclone Amphan (Super Cyclonic - Cat 5)</option>
+          <option value="remal">Cyclone Remal (Severe Cyclonic - Cat 3)</option>
+          <option value="mocha">Cyclone Mocha (Extremely Severe - Cat 5)</option>
+        </select>
+      </div>
+
+      <!-- Audio Siren Unmute / Test Button -->
+      <button id="btnToggleAudio" class="btn-icon-toggle" title="Test / Unmute Alarm Siren" style="display: flex; align-items: center; gap: 6px; width: auto; padding: 0 12px; font-size: 0.78rem; font-family: monospace; color: #00f2fe; border-color: rgba(0,242,254,0.4);">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/>
+          <path d="M15.54 8.46a5 5 0 0 1 0 7.07"/>
+          <path d="M19.07 4.93a10 10 0 0 1 0 14.14"/>
+        </svg>
+        <span id="audioButtonText">TEST SIREN</span>
+      </button>
+
+      <!-- Master Anticipatory Action Button -->
+      <button id="btnTriggerProtocol" class="btn-trigger-action" title="Execute Pre-Landfall Liquidity & Warning Protocol">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/>
+        </svg>
+        TRIGGER ANTICIPATORY PROTOCOL (T-72H)
+      </button>
+    </div>
+  </header>
+
+  <!-- =====================================================================
+       ANTICIPATORY ACTION TIMELINE BAR (T-120H TO LANDFALL)
+       ===================================================================== -->
+  <div class="timeline-container">
+    <div class="timeline-header">
+      <div class="timeline-title">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="12" cy="12" r="10"></circle>
+          <polyline points="12 6 12 12 16 14"></polyline>
+        </svg>
+        ANTICIPATORY ACTION TIMELINE (72H - 120H OPERATIONAL WINDOW)
+      </div>
+      <div class="timeline-meta">
+        <span>CURRENT SIMULATION STAGE: <strong id="timelineStageLabel" style="color: #00f2fe;">T-72H PRE-LANDFALL TRIGGER</strong></span>
+      </div>
+    </div>
+
+    <div class="timeline-stepper">
+      <div class="timeline-track-bar"></div>
+      <div id="timelineProgress" class="timeline-track-progress" style="width: 48%;"></div>
+
+      <div class="timeline-step" data-step="-120h">
+        <div class="step-node">T-5d</div>
+        <div class="step-label">T-120h</div>
+        <div class="step-sublabel">GEE SAR Baseline</div>
+      </div>
+
+      <div class="timeline-step" data-step="-96h">
+        <div class="step-node">T-4d</div>
+        <div class="step-label">T-96h</div>
+        <div class="step-sublabel">IMERG Forcing</div>
+      </div>
+
+      <div class="timeline-step trigger-node active" data-step="-72h">
+        <div class="step-node">★</div>
+        <div class="step-label" style="color: #f59e0b;">T-72h TRIGGER</div>
+        <div class="step-sublabel" style="color: #fde68a;">Liquidity & CAP Alert</div>
+      </div>
+
+      <div class="timeline-step" data-step="-48h">
+        <div class="step-node">T-2d</div>
+        <div class="step-label">T-48h</div>
+        <div class="step-sublabel">OSM Evacuation</div>
+      </div>
+
+      <div class="timeline-step" data-step="-24h">
+        <div class="step-node">T-1d</div>
+        <div class="step-label">T-24h</div>
+        <div class="step-sublabel">Grid De-energize</div>
+      </div>
+
+      <div class="timeline-step landfall-node" data-step="0h">
+        <div class="step-node">0h</div>
+        <div class="step-label">Landfall</div>
+        <div class="step-sublabel">Surge Crest</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- =====================================================================
+       MAIN DASHBOARD GRID (MAP + 5-TIER TACTICAL HUB)
+       ===================================================================== -->
+  <main class="dashboard-grid">
+    
+    <!-- LEFT: GIS MAP VIEWPORT & HUD -->
+    <div class="map-stage-container">
+      <canvas id="mapCanvas" class="map-viewport"></canvas>
+
+      <!-- Floating HUD Metrics -->
+      <div class="map-hud-overlay">
+        <div class="hud-panel">
+          <div class="hud-title">ANTICIPATORY LEAD TIME</div>
+          <div class="hud-value-group">
+            <span id="hudLeadTime" class="hud-large-val" style="color: #f59e0b;">T-72h</span>
+            <span class="hud-unit">pre-landfall window</span>
+          </div>
+        </div>
+
+        <div class="hud-panel">
+          <div class="hud-title">PINN PREDICTED PEAK SURGE</div>
+          <div class="hud-value-group">
+            <span id="hudSurgeDepth" class="hud-large-val">3.20m</span>
+            <span class="hud-unit">(Shoaling & Drag)</span>
+          </div>
+        </div>
+
+        <div class="hud-panel">
+          <div class="hud-title">ATMOSPHERIC FORCING</div>
+          <div class="hud-value-group">
+            <span id="hudPressure" class="hud-large-val" style="font-size: 1.15rem; color: #38bdf8;">940 hPa</span>
+            <span id="hudWinds" class="hud-unit" style="color: #e2e8f0;">195 km/h</span>
+          </div>
+        </div>
+
+        <div class="hud-panel">
+          <div class="hud-title">THREATENED CRITICAL ASSETS</div>
+          <div class="hud-value-group">
+            <span id="hudThreatenedAssets" class="hud-large-val" style="color: #ef4444;">6</span>
+            <span class="hud-unit">OSM facilities inundated</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Layer Control Floating Box -->
+      <div class="map-layer-controls">
+        <div style="font-size: 0.7rem; font-weight: 700; color: #94a3b8; font-family: monospace; margin-bottom: 2px;">MAP LAYERS</div>
+        <label class="layer-toggle">
+          <input type="checkbox" name="stormTrack" checked> Storm Track & Cone
+        </label>
+        <label class="layer-toggle">
+          <input type="checkbox" name="surgeContours" checked> PINN Surge Contours
+        </label>
+        <label class="layer-toggle">
+          <input type="checkbox" name="sarInundation" checked> Sentinel-1 SAR Otsu
+        </label>
+        <label class="layer-toggle">
+          <input type="checkbox" name="osmInfrastructure" checked> OSM Critical Assets
+        </label>
+        <label class="layer-toggle">
+          <input type="checkbox" name="loraMesh" checked> LoRaWAN Mesh Nodes
+        </label>
+      </div>
+
+      <!-- Map Legend -->
+      <div class="map-legend">
+        <div class="legend-title">PINN SURGE DEPTH</div>
+        <div class="legend-scale">
+          <div class="scale-gradient"></div>
+        </div>
+        <div class="scale-labels">
+          <span>0.5m</span>
+          <span>2.5m</span>
+          <span>4.5m+</span>
+        </div>
+      </div>
+
+      <!-- Interactive Tooltip -->
+      <div id="mapTooltip" class="map-tooltip"></div>
+    </div>
+
+    <!-- RIGHT: 5-TIER MULTI-TIER TACTICAL HUB -->
+    <aside class="tactical-hub-container">
+      
+      <!-- Tier Navigation Tabs -->
+      <nav class="tier-tabs-nav">
+        <button class="tier-tab-btn active" data-tab="tier1">
+          <span class="tier-tab-number">TIER 1</span>
+          <span>GEE & SAR</span>
+        </button>
+        <button class="tier-tab-btn" data-tab="tier2">
+          <span class="tier-tab-number">TIER 2</span>
+          <span>PINN HYDRO</span>
+        </button>
+        <button class="tier-tab-btn" data-tab="tier3">
+          <span class="tier-tab-number">TIER 3</span>
+          <span>OSM EXPOSURE</span>
+        </button>
+        <button class="tier-tab-btn" data-tab="tier4">
+          <span class="tier-tab-number">TIER 4</span>
+          <span>GEMINI 3.7</span>
+        </button>
+        <button class="tier-tab-btn" data-tab="tier5">
+          <span class="tier-tab-number">TIER 5</span>
+          <span>ALERTS & WEB3</span>
+        </button>
+      </nav>
+
+      <!-- Panel Content Container -->
+      <div class="tier-panel-content">
+        
+        <!-- ==========================================
+             TIER 1 PANEL: GEE & SAR INGESTION
+             ========================================== -->
+        <div id="panel-tier1" class="tier-tab-panel" style="display: block;">
+          <div class="card">
+            <div class="card-header">
+              <span class="card-title">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="m4.93 4.93 4.24 4.24"/><path d="m14.83 9.17 4.24-4.24"/><path d="m14.83 14.83 4.24 4.24"/><path d="m9.17 14.83-4.24 4.24"/></svg>
+                Sentinel-1 SAR Radar Backscatter Histogram
+              </span>
+              <span class="card-badge">C-BAND GRD (VV+VH)</span>
+            </div>
+
+            <!-- SAR Histogram Canvas -->
+            <div class="sar-histogram-container">
+              <canvas id="sarHistogramCanvas"></canvas>
+            </div>
+
+            <div style="display: flex; justify-content: space-between; margin-top: 8px; font-size: 0.68rem; font-family: monospace; color: #94a3b8;">
+              <span>Dynamic Otsu Cutoff: <strong style="color: #f59e0b;">-6.5 dB</strong></span>
+              <span>Speckle Kernel: <strong>100m Median</strong></span>
+            </div>
+          </div>
+
+          <!-- Plausibility Masking Controls -->
+          <div class="card">
+            <div class="card-header">
+              <span class="card-title">Copernicus Plausibility Masks</span>
+              <span class="card-badge">GEE Spatial Reduction</span>
+            </div>
+            
+            <div class="filter-switch-row">
+              <span class="filter-switch-label">Copernicus DEM GLO-30 Slope Filter (&le; 5.0&deg;)</span>
+              <span class="filter-switch-tag">MASK APPLIED</span>
+            </div>
+            <div class="filter-switch-row">
+              <span class="filter-switch-label">Height Above Nearest Drainage (HAND &le; 40m)</span>
+              <span class="filter-switch-tag">MASK APPLIED</span>
+            </div>
+            <div class="filter-switch-row">
+              <span class="filter-switch-label">JRC Global Surface Water (Permanent Exclusion)</span>
+              <span class="filter-switch-tag">MASK APPLIED</span>
+            </div>
+          </div>
+
+          <!-- Meteorological Forcing Card -->
+          <div class="card">
+            <div class="card-header">
+              <span class="card-title">Real-Time Atmospheric Forcing</span>
+              <span class="card-badge">GPM IMERG + ECMWF</span>
+            </div>
+            <div class="metric-grid-2">
+              <div class="metric-item">
+                <div class="metric-label">PRECIPITATION RATE</div>
+                <div id="valImergRain" class="metric-value">65 mm/h</div>
+                <div class="metric-sub">GPM IMERG synoptic flux</div>
+              </div>
+              <div class="metric-item">
+                <div class="metric-label">RADAR POLARIZATION</div>
+                <div class="metric-value" style="font-size: 0.95rem;">Dual VV + VH</div>
+                <div class="metric-sub">Ascending/Descending Max</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ==========================================
+             TIER 2 PANEL: PINN & DUALFLOODGNN
+             ========================================== -->
+        <div id="panel-tier2" class="tier-tab-panel" style="display: none;">
+          <div class="card">
+            <div class="card-header">
+              <span class="card-title">PINN Storm Surge Solver</span>
+              <span class="card-badge">ADCIRC / SLOSH SURROGATE</span>
+            </div>
+            
+            <div class="formula-banner">
+              L_PINN = L_data + &lambda;1 * L_NS + &lambda;2 * L_mass
+            </div>
+
+            <div class="metric-grid-2">
+              <div class="metric-item">
+                <div class="metric-label">PEAK PREDICTED SURGE</div>
+                <div id="valPinnSurge" class="metric-value">3.20m</div>
+                <div class="metric-sub">Inundation depth at coast</div>
+              </div>
+              <div class="metric-item">
+                <div class="metric-label">INFERENCE LATENCY</div>
+                <div class="metric-value" style="color: #10b981;">124 ms</div>
+                <div class="metric-sub">vs 36h traditional HPC</div>
+              </div>
+            </div>
+
+            <div style="margin-top: 12px; font-size: 0.72rem; color: #94a3b8; line-height: 1.6;">
+              <div style="display: flex; justify-content: space-between; padding: 4px 0;">
+                <span>Inverted Barometer (&Delta;&eta;_p):</span>
+                <strong id="valPinnBarometer" style="color: #38bdf8;">+0.73m</strong>
+              </div>
+              <div style="display: flex; justify-content: space-between; padding: 4px 0;">
+                <span>Wind Drag & Shoaling (&Delta;&eta;_w):</span>
+                <strong id="valPinnWind" style="color: #38bdf8;">+1.82m</strong>
+              </div>
+              <div style="display: flex; justify-content: space-between; padding: 4px 0;">
+                <span>Harmonic Astronomical Tide (&eta;_t):</span>
+                <strong style="color: #38bdf8;">+0.65m</strong>
+              </div>
+            </div>
+          </div>
+
+          <!-- DUALFloodGNN Mass Conservation -->
+          <div class="card">
+            <div class="card-header">
+              <span class="card-title">DUALFloodGNN Pluvial Routing</span>
+              <span class="card-badge">CONSERVATION OF MASS</span>
+            </div>
+            <div class="metric-item">
+              <div class="metric-label">LOCAL MASS RESIDUAL LOSS</div>
+              <div id="valGnnResidual" class="metric-value" style="color: #10b981; font-size: 1.1rem;">4.20e-5</div>
+              <div class="progress-bar-container">
+                <div class="progress-bar-fill" style="width: 12%;"></div>
+              </div>
+              <div class="metric-sub">&check; Mass strictly conserved (&lt; 1e-4 threshold)</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ==========================================
+             TIER 3 PANEL: OSM INFRASTRUCTURE EXPOSURE
+             ========================================== -->
+        <div id="panel-tier3" class="tier-tab-panel" style="display: none;">
+          <div class="card">
+            <div class="card-header">
+              <span class="card-title">OpenStreetMap Overpass QL</span>
+              <select id="qlCategorySelect" class="scenario-select" style="background: #162036; padding: 4px 8px; border-radius: 6px;">
+                <option value="medical_shelters">Medical Shelters</option>
+                <option value="power_grid">Power Transformers</option>
+                <option value="evacuation_routes">Arterial Highways</option>
+                <option value="emergency_hubs">Police Command Hubs</option>
+              </select>
+            </div>
+            <div id="qlConsoleOutput" class="ql-console">[out:json][timeout:25];
+(
+  node["amenity"="hospital"](21.0,88.0,23.5,91.5);
+  way["amenity"="hospital"](21.0,88.0,23.5,91.5);
+  relation["amenity"="hospital"](21.0,88.0,23.5,91.5);
+);
+out body;
+>;
+out skel qt;</div>
+          </div>
+
+          <!-- Spatial Join Intersected Assets -->
+          <div class="card">
+            <div class="card-header">
+              <span class="card-title">Spatial Join (sjoin) Vulnerability Matrix</span>
+              <span class="card-badge">CRITICAL ASSETS</span>
+            </div>
+            <div id="assetVulnerabilityList" class="asset-vulnerability-list">
+              <!-- Dynamically populated -->
+            </div>
+          </div>
+        </div>
+
+        <!-- ==========================================
+             TIER 4 PANEL: GEMINI 3.7 FLASH REASONING
+             ========================================== -->
+        <div id="panel-tier4" class="tier-tab-panel" style="display: none;">
+          <div class="card">
+            <div class="ai-agent-header">
+              <div class="ai-avatar">G</div>
+              <div>
+                <div style="font-weight: 700; font-size: 0.88rem; color: #c084fc;">Gemini 3.7 Flash</div>
+                <div style="font-size: 0.68rem; font-family: monospace; color: #94a3b8;">FORMATION CONTROLLER REASONING AGENT</div>
+              </div>
+            </div>
+
+            <!-- Agent Thinking Stream -->
+            <div id="geminiReasoningOutput" class="ai-reasoning-stream">
+              <!-- Dynamically populated with compound reasoning -->
+            </div>
+          </div>
+
+          <!-- Strict JSON Schema Output Box -->
+          <div class="card">
+            <div class="card-header">
+              <span class="card-title">Enforced Response Schema (JSON)</span>
+              <span class="card-badge">response_schema</span>
+            </div>
+            <div id="geminiJsonOutput" class="json-code-box">
+              <!-- Formatted JSON output -->
+            </div>
+          </div>
+        </div>
+
+        <!-- ==========================================
+             TIER 5 PANEL: ALERTS & WEB3 LIQUIDITY
+             ========================================== -->
+        <div id="panel-tier5" class="tier-tab-panel" style="display: none;">
+          
+          <!-- Sub-panel A: OASIS CAP v1.2 Dispatcher -->
+          <div class="card">
+            <div class="card-header">
+              <span class="card-title">OASIS CAP v1.2 Dissemination</span>
+              <span class="card-badge">CELL BROADCAST SERVICE</span>
+            </div>
+            <div id="capXmlOutput" class="ql-console" style="max-height: 120px; color: #a5f3fc;">
+              <!-- Generated XML alert -->
+            </div>
+            <button id="btnCbsBroadcast" class="btn-cbs-broadcast">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+              BROADCAST VIA CELL BROADCAST (CBS CHANNEL-4370)
+            </button>
+          </div>
+
+          <!-- Sub-panel B: LoRaWAN Offline Mesh Network -->
+          <div class="card">
+            <div class="card-header">
+              <span class="card-title">LoRaWAN Offline Mesh Network</span>
+              <span class="card-badge">DECENTRALIZED RADIO</span>
+            </div>
+            <canvas id="loraMeshCanvas" class="lora-mesh-canvas"></canvas>
+            <div class="lora-node-status-grid">
+              <div class="lora-node-card">
+                <div class="lora-node-name">Gateway <span class="lora-dot"></span></div>
+                <div style="color: #94a3b8;">Barisal Tower</div>
+                <div style="color: #00e5a3; font-family: monospace;">RSSI: -62 dBm</div>
+              </div>
+              <div class="lora-node-card">
+                <div class="lora-node-name">Relay N1 <span class="lora-dot"></span></div>
+                <div style="color: #94a3b8;">Patuakhali</div>
+                <div style="color: #00e5a3; font-family: monospace;">RSSI: -78 dBm</div>
+              </div>
+              <div class="lora-node-card">
+                <div class="lora-node-name">Edge Siren <span class="lora-dot" style="background: #ef4444;"></span></div>
+                <div style="color: #94a3b8;">Kuakata Shore</div>
+                <div style="color: #f59e0b; font-family: monospace;">RSSI: -96 dBm</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Sub-panel C: Parametric Insurance & Smart Contract -->
+          <div class="card web3-contract-card">
+            <div class="card-header">
+              <span class="card-title" style="color: #e9d5ff;">IndexedInsurance.sol</span>
+              <span id="contractStatusBadge" class="card-badge" style="background: rgba(16, 185, 129, 0.2); color: #6ee7b7;">SETTLED (PRE-LANDFALL 72H)</span>
+            </div>
+
+            <div class="oracle-feed-bar">
+              <span class="oracle-badge">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"/><path d="M2 12h20"/></svg>
+                Chainlink DON Surge Oracle:
+              </span>
+              <span style="font-family: monospace; font-weight: 700; color: #a855f7;">3.20m (Threshold: 2.50m)</span>
+            </div>
+
+            <div style="display: flex; justify-content: space-between; font-size: 0.72rem; color: #cbd5e1; margin-bottom: 6px;">
+              <span>Escrow Vault Pool: <strong>$2,500,000 USD</strong></span>
+              <span>Beneficiaries: <strong>50,000 Families</strong></span>
+            </div>
+
+            <div style="font-size: 0.68rem; font-family: monospace; color: #a78bfa; margin-top: 8px;">
+              AUTOMATED BASH/NAGAD CASHOUT AUDIT TRAIL:
+            </div>
+            <div id="payoutStreamList" class="payout-stream-list">
+              <!-- Dynamically populated payout stream -->
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </aside>
+  </main>
+
+  <!-- =====================================================================
+       CELL BROADCAST EMERGENCY MODAL (CBS CHANNEL-4370 SIMULATION)
+       ===================================================================== -->
+  <div id="cbsModalOverlay" class="modal-overlay">
+    <div class="phone-mockup-frame">
+      <div class="phone-notch"></div>
+      
+      <div class="cbs-alert-card">
+        <div class="cbs-alert-header">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+          CIVIL EMERGENCY BROADCAST
+        </div>
+
+        <div id="cbsModalHeadline" style="font-weight: 800; font-size: 0.95rem;">
+          EMERGENCY ALERT: CYCLONE AMPHAN (T-72H)
+        </div>
+
+        <div id="cbsModalDesc" class="cbs-alert-body">
+          Surge depth of 3.20m projected. Imminent coastal cut-off detected along arterial evacuation corridors.
+        </div>
+
+        <div id="cbsModalInstruction" class="cbs-alert-instruction">
+          Anticipatory action in effect: Proceed immediately to cyclone shelters. Cash assistance of ৳5,500 has been transferred directly to your mobile wallet.
+        </div>
+
+        <button id="btnDismissAlert" class="cbs-alert-dismiss-btn">
+          ACKNOWLEDGE & DISMISS ALARM
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Application Logic (Universal Bundle - works on file:// and http://) -->
+  <script src="js/bundle.js"></script>
+</body>
+</html>
